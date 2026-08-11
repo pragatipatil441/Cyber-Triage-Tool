@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Report Generated</title>
+
+    <style>
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f5f9;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            min-height: 100vh;
+
+            margin: 0;
+
+        }
+
+
+        .card {
+
+            background: white;
+
+            padding: 45px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.1);
+
+            max-width: 500px;
+
+        }
+
+
+        .icon {
+
+            font-size: 55px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        h1 {
+
+            color: #166534;
+
+        }
+
+
+        p {
+
+            color: #64748b;
+
+            line-height: 1.6;
+
+        }
+
+
+        a {
+
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 12px 20px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+        }
+
+
+        a:hover {
+
+            background: #1d4ed8;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="card">
+
+    <div class="icon">
+        📄
+    </div>
+
+
+    <h1>
+        Report Generated Successfully
+    </h1>
+
+
+    <p>
+
+        The automated forensic report for
+
+        <strong>
+            {{ filename }}
+        </strong>
+
+        has been generated successfully.
+
+    </p>
+
+
+    <a
+        href="{{ report_url }}"
+        target="_blank"
+    >
+
+        📥 Open PDF Report
+
+    </a>
+
+
+    <br>
+
+
+    <a
+        href="/"
+        style="background:#475569;"
+    >
+
+        ← Back to Dashboard
+
+    </a>
+
+</div>
+
+
+</body>
+
+</html>

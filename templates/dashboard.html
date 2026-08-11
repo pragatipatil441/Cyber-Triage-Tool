@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Cyber Triage Dashboard
+    </title>
+
+
+    <style>
+
+        /* ==========================================
+           GLOBAL
+        ========================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f5f9;
+
+            color: #1e293b;
+
+        }
+
+
+        /* ==========================================
+           HEADER
+        ========================================== */
+
+        .header {
+
+            background: #111827;
+
+            color: white;
+
+            padding: 24px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .header h1 {
+
+            font-size: 28px;
+
+        }
+
+
+        .header p {
+
+            margin-top: 6px;
+
+            color: #cbd5e1;
+
+        }
+
+
+        .status {
+
+            background: #166534;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+        }
+
+
+        /* ==========================================
+           MAIN CONTAINER
+        ========================================== */
+
+        .container {
+
+            max-width: 1400px;
+
+            margin: auto;
+
+            padding: 30px;
+
+        }
+
+
+        /* ==========================================
+           STATISTICS
+        ========================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            padding: 24px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .stat-card h3 {
+
+            font-size: 14px;
+
+            color: #64748b;
+
+            font-weight: normal;
+
+        }
+
+
+        .stat-card h2 {
+
+            font-size: 32px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .stat-card p {
+
+            margin-top: 7px;
+
+            font-size: 13px;
+
+            color: #94a3b8;
+
+        }
+
+
+        /* ==========================================
+           UPLOAD SECTION
+        ========================================== */
+
+        .upload-card {
+
+            background: white;
+
+            padding: 28px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .upload-card h2 {
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .upload-card p {
+
+            color: #64748b;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .upload-form {
+
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        input[type="file"] {
+
+            padding: 10px;
+
+            border: 1px solid #cbd5e1;
+
+            border-radius: 7px;
+
+            background: #f8fafc;
+
+        }
+
+
+        .button {
+
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 11px 20px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            display: inline-block;
+
+        }
+
+
+        .button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        .history-button {
+
+            background: #475569;
+
+        }
+
+
+        .history-button:hover {
+
+            background: #334155;
+
+        }
+
+
+        /* ==========================================
+           ANALYTICS
+        ========================================== */
+
+        .analytics {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 25px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .panel {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .panel h2 {
+
+            margin-bottom: 22px;
+
+            font-size: 20px;
+
+        }
+
+
+        /* ==========================================
+           RISK BARS
+        ========================================== */
+
+        .risk-row {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .risk-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+        }
+
+
+        .bar {
+
+            width: 100%;
+
+            height: 12px;
+
+            background: #e2e8f0;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+        }
+
+
+        .bar-fill {
+
+            height: 100%;
+
+            border-radius: 10px;
+
+        }
+
+
+        .low {
+
+            background: #22c55e;
+
+        }
+
+
+        .medium {
+
+            background: #eab308;
+
+        }
+
+
+        .high {
+
+            background: #f97316;
+
+        }
+
+
+        .critical {
+
+            background: #dc2626;
+
+        }
+
+
+        /* ==========================================
+           AI / ML
+        ========================================== */
+
+        .ai-content {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        .ai-card {
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            background: #f8fafc;
+
+            text-align: center;
+
+        }
+
+
+        .ai-card h3 {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            font-weight: normal;
+
+        }
+
+
+        .ai-card h2 {
+
+            font-size: 35px;
+
+            margin-top: 12px;
+
+        }
+
+
+        .normal-text {
+
+            color: #15803d;
+
+        }
+
+
+        .anomaly-text {
+
+            color: #dc2626;
+
+        }
+
+
+        /* ==========================================
+           RECENT INVESTIGATIONS
+        ========================================== */
+
+        .recent {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .recent-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .recent-header h2 {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .view-all-button {
+
+            background: #2563eb;
+
+        }
+
+
+        .view-all-button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        /* ==========================================
+           TABLE
+        ========================================== */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 850px;
+
+        }
+
+
+        th {
+
+            text-align: left;
+
+            padding: 13px;
+
+            background: #f8fafc;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+        }
+
+
+        td {
+
+            padding: 13px;
+
+            border-top: 1px solid #e2e8f0;
+
+            font-size: 14px;
+
+        }
+
+
+        tbody tr:hover td {
+
+            background: #f8fafc;
+
+        }
+
+
+        .filename {
+
+            font-weight: bold;
+
+            color: #1e293b;
+
+        }
+
+
+        /* ==========================================
+           RISK BADGES
+        ========================================== */
+
+        .risk-badge {
+
+            display: inline-block;
+
+            padding: 5px 10px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+        }
+
+
+        .risk-low {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+        }
+
+
+        .risk-medium {
+
+            background: #fef9c3;
+
+            color: #854d0e;
+
+        }
+
+
+        .risk-high {
+
+            background: #ffedd5;
+
+            color: #9a3412;
+
+        }
+
+
+        .risk-critical {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        /* ==========================================
+           EMPTY STATE
+        ========================================== */
+
+        .empty-state {
+
+            text-align: center;
+
+            padding: 45px 20px;
+
+            color: #64748b;
+
+        }
+
+
+        .empty-icon {
+
+            font-size: 48px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .empty-state p {
+
+            color: #64748b;
+
+        }
+
+
+        /* ==========================================
+           FOOTER
+        ========================================== */
+
+        .footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 900px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .analytics {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .container {
+
+                padding: 15px;
+
+            }
+
+
+            .header {
+
+                padding: 20px;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 12px;
+
+            }
+
+
+            .ai-content {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .recent-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 12px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<div class="header">
+
+    <div>
+
+        <h1>
+            🛡️ Cyber Triage Tool
+        </h1>
+
+        <p>
+            AI-Assisted Digital Forensic Investigation Platform
+        </p>
+
+    </div>
+
+
+    <div class="status">
+
+        ● System Operational
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     MAIN CONTAINER
+========================================== -->
+
+<div class="container">
+
+
+    <!-- ========================================
+         STATISTICS CARDS
+    ========================================= -->
+
+    <div class="stats">
+
+
+        <!-- TOTAL INVESTIGATIONS -->
+
+        <div class="stat-card">
+
+            <h3>
+                Total Investigations
+            </h3>
+
+            <h2>
+
+                {{ total_evidence }}
+
+            </h2>
+
+            <p>
+                Evidence files analyzed
+            </p>
+
+        </div>
+
+
+        <!-- DETECTED IOCs -->
+
+        <div class="stat-card">
+
+            <h3>
+                Detected IOCs
+            </h3>
+
+            <h2>
+
+                {{ detected_iocs }}
+
+            </h2>
+
+            <p>
+                Indicators of Compromise
+            </p>
+
+        </div>
+
+
+        <!-- SUSPICIOUS FINDINGS -->
+
+        <div class="stat-card">
+
+            <h3>
+                Suspicious Findings
+            </h3>
+
+            <h2>
+
+                {{ suspicious_artifacts }}
+
+            </h2>
+
+            <p>
+                Potential security indicators
+            </p>
+
+        </div>
+
+
+        <!-- CRITICAL CASES -->
+
+        <div class="stat-card">
+
+            <h3>
+                Critical Cases
+            </h3>
+
+            <h2>
+
+                {{ critical_findings }}
+
+            </h2>
+
+            <p>
+                Require immediate attention
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         UPLOAD CARD
+    ========================================= -->
+
+    <div class="upload-card">
+
+
+        <h2>
+            🔍 Analyze Digital Evidence
+        </h2>
+
+
+        <p>
+
+            Upload a forensic evidence file for
+            automated IOC detection, risk scoring
+            and AI-assisted anomaly analysis.
+
+        </p>
+
+
+        <form
+
+            action="/upload"
+
+            method="POST"
+
+            enctype="multipart/form-data"
+
+            class="upload-form"
+
+        >
+
+
+            <input
+
+                type="file"
+
+                name="evidence"
+
+                accept=".txt,.log,.csv,.json"
+
+                required
+
+            >
+
+
+            <button
+
+                type="submit"
+
+                class="button"
+
+            >
+
+                Analyze Evidence
+
+            </button>
+
+
+            <a
+
+                href="/history"
+
+                class="button history-button"
+
+            >
+
+                📋 Investigation History
+
+            </a>
+
+
+        </form>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         ANALYTICS
+    ========================================= -->
+
+    <div class="analytics">
+
+
+        <!-- =====================================
+             RISK DISTRIBUTION
+        ====================================== -->
+
+        <div class="panel">
+
+
+            <h2>
+                📊 Risk Distribution
+            </h2>
+
+
+            {% set total_risk =
+
+                risk_distribution["Low"]
+
+                +
+
+                risk_distribution["Medium"]
+
+                +
+
+                risk_distribution["High"]
+
+                +
+
+                risk_distribution["Critical"]
+
+            %}
+
+
+            {% if total_risk > 0 %}
+
+
+                <!-- LOW -->
+
+                <div class="risk-row">
+
+
+                    <div class="risk-header">
+
+                        <span>
+                            Low
+                        </span>
+
+                        <strong>
+
+                            {{ risk_distribution["Low"] }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div
+
+                            class="bar-fill low"
+
+                            style="width:
+                            {{ (risk_distribution["Low"]
+                            / total_risk * 100) }}%;"
+
+                        ></div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- MEDIUM -->
+
+                <div class="risk-row">
+
+
+                    <div class="risk-header">
+
+                        <span>
+                            Medium
+                        </span>
+
+                        <strong>
+
+                            {{ risk_distribution["Medium"] }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div
+
+                            class="bar-fill medium"
+
+                            style="width:
+                            {{ (risk_distribution["Medium"]
+                            / total_risk * 100) }}%;"
+
+                        ></div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- HIGH -->
+
+                <div class="risk-row">
+
+
+                    <div class="risk-header">
+
+                        <span>
+                            High
+                        </span>
+
+                        <strong>
+
+                            {{ risk_distribution["High"] }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div
+
+                            class="bar-fill high"
+
+                            style="width:
+                            {{ (risk_distribution["High"]
+                            / total_risk * 100) }}%;"
+
+                        ></div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- CRITICAL -->
+
+                <div class="risk-row">
+
+
+                    <div class="risk-header">
+
+                        <span>
+                            Critical
+                        </span>
+
+                        <strong>
+
+                            {{ risk_distribution["Critical"] }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="bar">
+
+                        <div
+
+                            class="bar-fill critical"
+
+                            style="width:
+                            {{ (risk_distribution["Critical"]
+                            / total_risk * 100) }}%;"
+
+                        ></div>
+
+                    </div>
+
+
+                </div>
+
+
+            {% else %}
+
+
+                <p style="color:#64748b;">
+
+                    No investigation data available yet.
+
+                </p>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             AI / ML ANALYSIS
+        ====================================== -->
+
+        <div class="panel">
+
+
+            <h2>
+                🤖 AI / ML Analysis
+            </h2>
+
+
+            <div class="ai-content">
+
+
+                <!-- NORMAL -->
+
+                <div class="ai-card">
+
+
+                    <h3>
+                        Normal Investigations
+                    </h3>
+
+
+                    <h2 class="normal-text">
+
+                        {{ ai_statistics["normal"] }}
+
+                    </h2>
+
+
+                </div>
+
+
+
+                <!-- ANOMALOUS -->
+
+                <div class="ai-card">
+
+
+                    <h3>
+                        Anomalous Investigations
+                    </h3>
+
+
+                    <h2 class="anomaly-text">
+
+                        {{ ai_statistics["anomalous"] }}
+
+                    </h2>
+
+
+                </div>
+
+
+            </div>
+
+
+            <p
+                style="
+                    margin-top:20px;
+                    color:#64748b;
+                    font-size:13px;
+                "
+            >
+
+                AI-assisted analysis helps prioritize
+                potentially suspicious investigations.
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================
+         RECENT INVESTIGATIONS
+    ========================================= -->
+
+    <div class="recent">
+
+
+        <div class="recent-header">
+
+
+            <h2>
+                📋 Recent Investigations
+            </h2>
+
+
+            <a
+
+                href="/history"
+
+                class="button view-all-button"
+
+            >
+
+                View All
+
+            </a>
+
+
+        </div>
+
+
+
+        {% if recent_investigations %}
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+
+                        <tr>
+
+                            <th>
+                                Evidence File
+                            </th>
+
+                            <th>
+                                Date & Time
+                            </th>
+
+                            <th>
+                                IOCs
+                            </th>
+
+                            <th>
+                                Findings
+                            </th>
+
+                            <th>
+                                Risk Score
+                            </th>
+
+                            <th>
+                                Risk Level
+                            </th>
+
+                        </tr>
+
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                    {% for investigation
+                       in recent_investigations %}
+
+
+                        <tr>
+
+
+                            <!-- FILE -->
+
+                            <td>
+
+                                <span class="filename">
+
+                                    {{ investigation["filename"] }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- TIME -->
+
+                            <td>
+
+                                {{ investigation["upload_time"] }}
+
+                            </td>
+
+
+                            <!-- IOCs -->
+
+                            <td>
+
+                                {{ investigation["total_iocs"] }}
+
+                            </td>
+
+
+                            <!-- FINDINGS -->
+
+                            <td>
+
+                                {{ investigation["suspicious_findings"] }}
+
+                            </td>
+
+
+                            <!-- SCORE -->
+
+                            <td>
+
+                                {{ investigation["risk_score"] }}/100
+
+                            </td>
+
+
+                            <!-- RISK LEVEL -->
+
+                            <td>
+
+
+                                {% if investigation["risk_level"]
+                                   == "Low" %}
+
+
+                                    <span
+                                        class="risk-badge
+                                               risk-low"
+                                    >
+
+                                        🟢 Low
+
+                                    </span>
+
+
+                                {% elif
+                                   investigation["risk_level"]
+                                   == "Medium" %}
+
+
+                                    <span
+                                        class="risk-badge
+                                               risk-medium"
+                                    >
+
+                                        🟡 Medium
+
+                                    </span>
+
+
+                                {% elif
+                                   investigation["risk_level"]
+                                   == "High" %}
+
+
+                                    <span
+                                        class="risk-badge
+                                               risk-high"
+                                    >
+
+                                        🟠 High
+
+                                    </span>
+
+
+                                {% else %}
+
+
+                                    <span
+                                        class="risk-badge
+                                               risk-critical"
+                                    >
+
+                                        🔴 Critical
+
+                                    </span>
+
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                    {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-state">
+
+
+                <div class="empty-icon">
+
+                    📂
+
+                </div>
+
+
+                <p>
+
+                    No investigations available yet.
+
+                </p>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<div class="footer">
+
+    Cyber Triage Tool |
+
+    AI-Assisted Digital Forensics
+
+</div>
+
+
+</body>
+
+</html>

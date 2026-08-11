@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Investigation Results - Cyber Triage Tool
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family: Arial, sans-serif;
+
+            background: #f1f5f9;
+
+            color: #1e293b;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =================================================
+           HEADER
+        ================================================= */
+
+        .header {
+
+            background: #111827;
+
+            color: white;
+
+            padding: 24px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+        }
+
+
+        .header h1 {
+
+            font-size: 27px;
+
+        }
+
+
+        .header p {
+
+            margin-top: 7px;
+
+            color: #cbd5e1;
+
+        }
+
+
+        .status {
+
+            background: #166534;
+
+            padding: 8px 15px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+
+        }
+
+
+        /* =================================================
+           MAIN CONTAINER
+        ================================================= */
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 30px;
+
+        }
+
+
+        /* =================================================
+           PAGE TITLE
+        ================================================= */
+
+        .page-title {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .page-title h2 {
+
+            font-size: 26px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .page-title p {
+
+            color: #64748b;
+
+        }
+
+
+        /* =================================================
+           SUMMARY CARD
+        ================================================= */
+
+        .summary-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .summary-card h2 {
+
+            font-size: 20px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .summary-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .summary-item {
+
+            background: #f8fafc;
+
+            padding: 17px;
+
+            border-radius: 9px;
+
+            border: 1px solid #e2e8f0;
+
+        }
+
+
+        .summary-label {
+
+            display: block;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .summary-value {
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =================================================
+           RESULT CARDS
+        ================================================= */
+
+        .results-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 25px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .result-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .result-card h2 {
+
+            font-size: 20px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        /* =================================================
+           RISK SCORE
+        ================================================= */
+
+        .score {
+
+            text-align: center;
+
+            padding: 20px;
+
+            background: #f8fafc;
+
+            border-radius: 10px;
+
+        }
+
+
+        .score-number {
+
+            font-size: 50px;
+
+            font-weight: bold;
+
+        }
+
+
+        .score-label {
+
+            color: #64748b;
+
+            margin-top: 5px;
+
+        }
+
+
+        /* =================================================
+           RISK LEVEL
+        ================================================= */
+
+        .risk-badge {
+
+            display: inline-block;
+
+            padding: 9px 18px;
+
+            border-radius: 20px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+        }
+
+
+        .low {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+        }
+
+
+        .medium {
+
+            background: #fef9c3;
+
+            color: #854d0e;
+
+        }
+
+
+        .high {
+
+            background: #ffedd5;
+
+            color: #9a3412;
+
+        }
+
+
+        .critical {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        /* =================================================
+           STAT BOXES
+        ================================================= */
+
+        .stat-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 15px;
+
+        }
+
+
+        .stat-box {
+
+            background: #f8fafc;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            border: 1px solid #e2e8f0;
+
+        }
+
+
+        .stat-box h3 {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            font-weight: normal;
+
+        }
+
+
+        .stat-box h2 {
+
+            font-size: 32px;
+
+            margin-top: 10px;
+
+            margin-bottom: 0;
+
+        }
+
+
+        /* =================================================
+           FINDINGS
+        ================================================= */
+
+        .findings-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .findings-card h2 {
+
+            margin-bottom: 20px;
+
+            font-size: 20px;
+
+        }
+
+
+        .finding {
+
+            padding: 15px;
+
+            background: #f8fafc;
+
+            border-left: 4px solid #dc2626;
+
+            border-radius: 6px;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .finding:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .finding strong {
+
+            display: block;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .finding p {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* =================================================
+           IOC SECTION
+        ================================================= */
+
+        .ioc-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .ioc-card h2 {
+
+            margin-bottom: 20px;
+
+            font-size: 20px;
+
+        }
+
+
+        .ioc-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+        }
+
+
+        .ioc-item {
+
+            background: #f8fafc;
+
+            padding: 13px 15px;
+
+            border-radius: 7px;
+
+            border: 1px solid #e2e8f0;
+
+            font-family: Consolas, monospace;
+
+            font-size: 14px;
+
+            word-break: break-word;
+
+        }
+
+
+        /* =================================================
+           AI SECTION
+        ================================================= */
+
+        .ai-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .ai-card h2 {
+
+            margin-bottom: 20px;
+
+            font-size: 20px;
+
+        }
+
+
+        .ai-status {
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+        }
+
+
+        .ai-normal {
+
+            background: #dcfce7;
+
+            color: #166534;
+
+        }
+
+
+        .ai-anomaly {
+
+            background: #fee2e2;
+
+            color: #991b1b;
+
+        }
+
+
+        /* =================================================
+           BUTTONS
+        ================================================= */
+
+        .actions {
+
+            display: flex;
+
+            gap: 12px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .button {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 11px 20px;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+        }
+
+
+        .button:hover {
+
+            background: #1d4ed8;
+
+        }
+
+
+        .history-button {
+
+            background: #475569;
+
+        }
+
+
+        .history-button:hover {
+
+            background: #334155;
+
+        }
+
+
+        .pdf-button {
+
+            background: #dc2626;
+
+        }
+
+
+        .pdf-button:hover {
+
+            background: #b91c1c;
+
+        }
+
+
+        /* =================================================
+           FOOTER
+        ================================================= */
+
+        .footer {
+
+            text-align: center;
+
+            padding: 25px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        @media (max-width: 800px) {
+
+            .results-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .summary-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .container {
+
+                padding: 15px;
+
+            }
+
+
+            .header {
+
+                padding: 20px;
+
+            }
+
+
+            .stat-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .score-number {
+
+                font-size: 40px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <div>
+
+        <h1>
+            🛡️ Cyber Triage Tool
+        </h1>
+
+        <p>
+            AI-Assisted Digital Forensic Investigation Platform
+        </p>
+
+    </div>
+
+
+    <div class="status">
+
+        ● Investigation Complete
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<div class="container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h2>
+            🔍 Investigation Results
+        </h2>
+
+        <p>
+            Automated analysis of the uploaded digital evidence.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         INVESTIGATION SUMMARY
+    ================================================= -->
+
+    <div class="summary-card">
+
+        <h2>
+            📋 Investigation Summary
+        </h2>
+
+
+        <div class="summary-grid">
+
+
+            <!-- =================================================
+                 INVESTIGATION ID
+            ================================================= -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+
+                    Investigation ID
+
+                </span>
+
+
+                <span class="summary-value">
+
+                    #{{ investigation["id"] }}
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 ANALYSIS DATE
+            ================================================= -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+
+                    Analysis Date & Time
+
+                </span>
+
+
+                <span class="summary-value">
+
+                    {{ investigation["upload_time"] }}
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 EVIDENCE FILE
+            ================================================= -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+
+                    Evidence File
+
+                </span>
+
+
+                <span class="summary-value">
+
+                    {{ filename }}
+
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 RISK LEVEL
+            ================================================= -->
+
+            <div class="summary-item">
+
+                <span class="summary-label">
+
+                    Risk Level
+
+                </span>
+
+
+                <span class="summary-value">
+
+
+                    {% if results["risk_level"] == "Low" %}
+
+                        <span class="risk-badge low">
+
+                            Low
+
+                        </span>
+
+
+                    {% elif results["risk_level"] == "Medium" %}
+
+                        <span class="risk-badge medium">
+
+                            Medium
+
+                        </span>
+
+
+                    {% elif results["risk_level"] == "High" %}
+
+                        <span class="risk-badge high">
+
+                            High
+
+                        </span>
+
+
+                    {% else %}
+
+                        <span class="risk-badge critical">
+
+                            Critical
+
+                        </span>
+
+                    {% endif %}
+
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         RESULT CARDS
+    ================================================= -->
+
+    <div class="results-grid">
+
+
+        <!-- =================================================
+             RISK SCORE
+        ================================================= -->
+
+        <div class="result-card">
+
+            <h2>
+
+                🎯 Risk Score
+
+            </h2>
+
+
+            <div class="score">
+
+                <div class="score-number">
+
+                    {{ results["risk_score"] }}
+
+                    <span style="font-size:22px;">
+
+                        /100
+
+                    </span>
+
+                </div>
+
+
+                <div class="score-label">
+
+                    Overall Investigation Risk
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             INVESTIGATION STATISTICS
+        ================================================= -->
+
+        <div class="result-card">
+
+            <h2>
+
+                📊 Investigation Statistics
+
+            </h2>
+
+
+            <div class="stat-grid">
+
+
+                <div class="stat-box">
+
+                    <h3>
+
+                        IOCs Detected
+
+                    </h3>
+
+
+                    <h2>
+
+                        {{ results["total_iocs"] }}
+
+                    </h2>
+
+                </div>
+
+
+                <div class="stat-box">
+
+                    <h3>
+
+                        Suspicious Findings
+
+                    </h3>
+
+
+                    <h2>
+
+                        {{ results["total_findings"] }}
+
+                    </h2>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         FINDINGS
+    ================================================= -->
+
+    <div class="findings-card">
+
+        <h2>
+
+            ⚠️ Suspicious Findings
+
+        </h2>
+
+
+        {% if results.get("findings") %}
+
+
+            {% for finding in results["findings"] %}
+
+                <div class="finding">
+
+                    <strong>
+
+                        Finding {{ loop.index }}
+
+                    </strong>
+
+
+                    <p>
+
+                        {{ finding }}
+
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <div class="finding"
+                 style="
+                    border-left-color:#22c55e;
+                 ">
+
+                <strong>
+
+                    No suspicious findings detected
+
+                </strong>
+
+
+                <p>
+
+                    The evidence did not contain any
+                    suspicious findings according to
+                    the current analysis rules.
+
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =================================================
+         IOC SECTION
+    ================================================= -->
+
+    <div class="ioc-card">
+
+        <h2>
+
+            🚨 Indicators of Compromise (IOCs)
+
+        </h2>
+
+
+        {% if results.get("iocs") %}
+
+
+            <div class="ioc-list">
+
+
+                {% for ioc in results["iocs"] %}
+
+                    <div class="ioc-item">
+
+                        {{ ioc }}
+
+                    </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="ioc-item">
+
+                No Indicators of Compromise detected.
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =================================================
+         AI / ML ANALYSIS
+    ================================================= -->
+
+    <div class="ai-card">
+
+        <h2>
+
+            🤖 AI / ML Analysis
+
+        </h2>
+
+
+        {% if results.get("anomaly") %}
+
+
+            <div class="ai-status ai-anomaly">
+
+                ⚠️ Anomalous Activity Detected
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="ai-status ai-normal">
+
+                ✓ No Significant Anomaly Detected
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =================================================
+         ACTION BUTTONS
+    ================================================= -->
+
+    <div class="actions">
+
+
+        <a
+            href="/generate-report/{{ filename }}"
+            class="button pdf-button"
+        >
+
+            📄 Generate PDF Report
+
+        </a>
+
+
+        <a
+            href="/history"
+            class="button history-button"
+        >
+
+            📋 Investigation History
+
+        </a>
+
+
+        <a
+            href="/"
+            class="button"
+        >
+
+            🔍 Analyze Another File
+
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<div class="footer">
+
+    Cyber Triage Tool |
+
+    AI-Assisted Digital Forensics
+
+</div>
+
+
+</body>
+
+</html>
