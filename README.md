@@ -100,5 +100,26 @@ Cyber_Triage_Tool/
 ├── uploads/
 ├── reports/
 │
+├── cyber_triage.db
 ├── README.md
 └── .gitignore
+
+```
+
+---
+
+## 📸 Application Screenshots
+
+### Dashboard
+
+![Cyber Triage Dashboard](screenshots/dashboard.png)
+
+### Investigation Results
+
+![Investigation Results](screenshots/investigation.png)
+
+### Investigation History
+
+![Investigation History](screenshots/investigationhistory.png)
+
+---
