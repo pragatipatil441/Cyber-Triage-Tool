@@ -81,6 +81,8 @@ Cyber_Triage_Tool/
 │   ├── __init__.py
 │   └── evidence_analyzer.py
 │
+├── ml/
+│
 ├── templates/
 │   ├── dashboard.html
 │   ├── results.html
@@ -88,11 +90,15 @@ Cyber_Triage_Tool/
 │   ├── investigation.html
 │   └── report_success.html
 │
+├── static/
+│
+├── screenshots/
+│   ├── dashboard.png
+│   ├── investigation.png
+│   └── investigationhistory.png
+│
 ├── uploads/
 ├── reports/
 │
-├── cyber_triage.db
-│
 ├── README.md
-│
-└── venv/
+└── .gitignore
